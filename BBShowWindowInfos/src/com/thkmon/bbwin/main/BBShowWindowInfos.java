@@ -1,5 +1,7 @@
 package com.thkmon.bbwin.main;
 
+import java.util.ArrayList;
+
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.User32;
@@ -10,13 +12,24 @@ import com.sun.jna.ptr.IntByReference;
 
 public class BBShowWindowInfos {
 	private static int index = 0;
+	private static ArrayList<String> hwndInfoList = null;
 
 	public static void main(String[] args) {
 		try {
 			System.out.println("[Information of current window handles]");
-
+			
+			hwndInfoList = new ArrayList<String>();
+			
 			BBShowWindowInfos instance = new BBShowWindowInfos();
 			instance.printAllHwndInformations();
+			
+			int count = hwndInfoList.size();
+			for (int i=0; i<count; i++) {
+				System.out.println("index : " + (i+1) + "/" + count);
+				System.out.println(hwndInfoList.get(i));	
+			}
+			
+			System.out.println("end");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -41,12 +54,15 @@ public class BBShowWindowInfos {
 					RECT rectangle = new RECT();
 					User32.INSTANCE.GetWindowRect(hwnd, rectangle);
 
-					// 숨겨져 있는 창은 제외하고 찾는다. 최소화 되어있는 창은 포함한다.
-					// rectangle.left값이 -32000일 경우 최소화되어 있는 창이다.
-					// if (wText.isEmpty() || !(User32.INSTANCE.IsWindowVisible(hwnd) &&
-					// rectangle.left > -32000)) {
+					// 숨겨져 있는 창은 제외하고 찾기
 					if (wText.isEmpty() || !(User32.INSTANCE.IsWindowVisible(hwnd))) {
 						return true;
+					}
+					
+					// 최소화 여부
+					boolean bMinimized = false;
+					if (rectangle.left <= -32000) {
+						bMinimized = true;
 					}
 
 					// 핸들(hwnd)의 클래스 네임 가져오기
@@ -60,16 +76,16 @@ public class BBShowWindowInfos {
 					int pid = pidByRef.getValue();
 
 					StringBuilder buff = new StringBuilder();
-
-					buff.append("번호 : ").append((++index));
-					buff.append(", ").append("pid : ").append(pid);
-					buff.append(", ").append("클래스네임 : ").append(clsName);
-					buff.append(", ").append("텍스트 : ").append(wText);
-					buff.append(", ").append("위치 : (").append(rectangle.left).append(",").append(rectangle.top)
-							.append(")");
+					buff.append("pid : ").append(pid);
+					buff.append("\n").append("className : ").append(clsName);
+					buff.append("\n").append("text : ").append(wText);
+					buff.append("\n").append("minimized : ").append(bMinimized);
+					buff.append("\n").append("position : (").append(rectangle.left).append(",").append(rectangle.top).append(")");
 					buff.append("~(").append(rectangle.right).append(",").append(rectangle.bottom).append(")");
-
-					System.out.println(buff.toString());
+					buff.append("\n");
+					
+					hwndInfoList.add(buff.toString());
+					
 					return true;
 				}
 			}, null);
