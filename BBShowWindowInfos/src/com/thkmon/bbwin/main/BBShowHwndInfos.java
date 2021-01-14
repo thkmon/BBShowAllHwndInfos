@@ -10,7 +10,7 @@ import com.sun.jna.platform.win32.WinDef.RECT;
 import com.sun.jna.platform.win32.WinUser.WNDENUMPROC;
 import com.sun.jna.ptr.IntByReference;
 
-public class BBShowWindowInfos {
+public class BBShowHwndInfos {
 	private static ArrayList<String> hwndInfoList = null;
 
 	public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class BBShowWindowInfos {
 			
 			hwndInfoList = new ArrayList<String>();
 			
-			BBShowWindowInfos instance = new BBShowWindowInfos();
+			BBShowHwndInfos instance = new BBShowHwndInfos();
 			instance.printAllHwndInformations();
 			
 			int count = hwndInfoList.size();
