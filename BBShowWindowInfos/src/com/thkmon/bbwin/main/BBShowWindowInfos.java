@@ -11,12 +11,12 @@ import com.sun.jna.platform.win32.WinUser.WNDENUMPROC;
 import com.sun.jna.ptr.IntByReference;
 
 public class BBShowWindowInfos {
-	private static int index = 0;
 	private static ArrayList<String> hwndInfoList = null;
 
 	public static void main(String[] args) {
 		try {
-			System.out.println("[Information of current window handles]");
+			System.out.println("[INFORMATION OF CURRENT WINDOW HANDLES]");
+			System.out.println("");
 			
 			hwndInfoList = new ArrayList<String>();
 			
@@ -29,7 +29,7 @@ public class BBShowWindowInfos {
 				System.out.println(hwndInfoList.get(i));	
 			}
 			
-			System.out.println("end");
+			System.out.println("END");
 
 		} catch (Exception e) {
 			e.printStackTrace();
