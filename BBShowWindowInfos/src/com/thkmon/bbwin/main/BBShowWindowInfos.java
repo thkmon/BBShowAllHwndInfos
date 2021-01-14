@@ -25,7 +25,7 @@ public class BBShowWindowInfos {
 			
 			int count = hwndInfoList.size();
 			for (int i=0; i<count; i++) {
-				System.out.println("index : " + (i+1) + "/" + count);
+				System.out.print("(" + (i+1) + "/" + count + ") ");
 				System.out.println(hwndInfoList.get(i));	
 			}
 			
@@ -76,11 +76,11 @@ public class BBShowWindowInfos {
 					int pid = pidByRef.getValue();
 
 					StringBuilder buff = new StringBuilder();
-					buff.append("pid : ").append(pid);
-					buff.append("\n").append("className : ").append(clsName);
-					buff.append("\n").append("text : ").append(wText);
-					buff.append("\n").append("minimized : ").append(bMinimized);
-					buff.append("\n").append("position : (").append(rectangle.left).append(",").append(rectangle.top).append(")");
+					buff.append("PID : ").append(pid);
+					buff.append("\n").append("CLASSNAME : ").append(clsName);
+					buff.append(" / ").append("TEXT : ").append(wText);
+					buff.append("\n").append("MINIMIZED : ").append(bMinimized);
+					buff.append(" / ").append("POSITION : (").append(rectangle.left).append(",").append(rectangle.top).append(")");
 					buff.append("~(").append(rectangle.right).append(",").append(rectangle.bottom).append(")");
 					buff.append("\n");
 					
